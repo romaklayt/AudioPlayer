@@ -24,17 +24,19 @@ namespace AudioPlayer
     {
         public int Compare(string s1, string s2)
         {
-            if (IsNumeric(s1) && IsNumeric(s2))
+            var tempIsNumeric = IsNumeric(s1);
+            var tempIsNumeric2 = IsNumeric(s2);
+            if (tempIsNumeric && tempIsNumeric2)
             {
                 if (Convert.ToInt32(s1) > Convert.ToInt32(s2)) return 1;
                 if (Convert.ToInt32(s1) < Convert.ToInt32(s2)) return -1;
                 if (Convert.ToInt32(s1) == Convert.ToInt32(s2)) return 0;
             }
 
-            if (IsNumeric(s1) && !IsNumeric(s2))
+            if (tempIsNumeric && tempIsNumeric2)
                 return -1;
 
-            if (!IsNumeric(s1) && IsNumeric(s2))
+            if (!tempIsNumeric && tempIsNumeric2)
                 return 1;
 
             return string.Compare(s1, s2, true);
@@ -42,15 +44,11 @@ namespace AudioPlayer
 
         public static bool IsNumeric(object value)
         {
-            try
-            {
-                var i = Convert.ToInt32(value.ToString());
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
+            int i;
+            var answ = int.TryParse(value.ToString(), out i);
+            if (answ) return true;
+
+            return false;
         }
     }
 }

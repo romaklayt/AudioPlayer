@@ -12,7 +12,13 @@
         public string NameArtist
         {
             get => _nameArtist;
-            set => _nameArtist = value == "" ? "НЕТ ДАННЫХ" : value;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value)==false)
+                {
+                    _nameArtist = value;
+                }
+            }
         }
     }
 }

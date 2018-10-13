@@ -1,6 +1,6 @@
 ﻿namespace AudioPlayer
 {
-    internal class Title
+   /* internal class Title
     {
         private string _nameTrack;
 
@@ -14,5 +14,5 @@
             get => _nameTrack;
             set => _nameTrack = value == "" ? "НЕТ ДАННЫХ" : value;
         }
-    }
+    }*/
 }

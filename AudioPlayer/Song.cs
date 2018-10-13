@@ -6,37 +6,37 @@
         private readonly Artist _artist;
         private readonly Chart _chartPosition;
         private readonly Genre _genre;
-        private readonly Title _title;
+        private  string _title;
         private Lyrics _lyrics;
 
 
         internal Song()
         {
-            _title = new Title("НЕТ ДАННЫХ");
+            _title = ("НЕТ ДАННЫХ");
             _album = new Album("НЕТ ДАННЫХ");
             _artist = new Artist("НЕТ ДАННЫХ");
             _genre = new Genre("НЕТ ДАННЫХ");
             _chartPosition = new Chart("НЕТ ДАННЫХ");
         }
 
-        internal Song(Title title, Artist artist) : this()
+        internal Song(string title, Artist artist) : this()
         {
             _title = title;
             _artist = artist;
-            _album = new Album(_title.NameTrack);
+            _album = new Album(_title);
         }
 
-        internal Song(Title title, Artist artist, Genre genre) : this(title, artist)
+        internal Song(string title, Artist artist, Genre genre) : this(title, artist)
         {
             _genre = genre;
         }
 
-        internal Song(Title title, Artist artist, Genre genre, Chart chartPosition) : this(title, artist, genre)
+        internal Song(string title, Artist artist, Genre genre, Chart chartPosition) : this(title, artist, genre)
         {
             _chartPosition = chartPosition;
         }
 
-        internal Song(Title title, Artist artist, Genre genre, Chart chartPosition, Album album)
+        internal Song(string title, Artist artist, Genre genre, Chart chartPosition, Album album)
         {
             _title = title;
             _artist = artist;
@@ -45,7 +45,7 @@
             _chartPosition = chartPosition;
         }
 
-        public string title => _title.NameTrack;
+        public string title => _title;
 
         public string album => _album.NameAlbum;
 

@@ -11,7 +11,7 @@ namespace AudioPlayer
     {
         private List<Song> _alltracks;
         private List<Song> _chart;
-        private string[] _data;
+        
         private bool _isPlaying;
         private bool _locked;
         private Song[] _newForPlaylist;
@@ -32,9 +32,9 @@ namespace AudioPlayer
 
                 foreach (var line in File.ReadLines(path))
                 {
-                    _data = line.Split(new[] {'\t'}, StringSplitOptions.RemoveEmptyEntries);
-                    _alltracks.Add(new Song(new Title(_data[1]), new Artist(_data[2]), new Genre(_data[3]),
-                        new Chart(_data[0])));
+                    var data = line.Split(new[] {'\t'}, StringSplitOptions.RemoveEmptyEntries);
+                    _alltracks.Add(new Song((data[1]), new Artist(data[2]), new Genre(data[3]),
+                        new Chart(data[0])));
                 }
             }
             catch (DirectoryNotFoundException directoryNotFoundException)
@@ -92,11 +92,11 @@ namespace AudioPlayer
             {
                 NewTrack(out var name, out var artist, out var chart, out var album, out var genre);
 
-                _newForPlaylist[i++] = new Song(new Title(name), new Artist(artist), new Genre(genre),
+                _newForPlaylist[i++] = new Song((name), new Artist(artist), new Genre(genre),
                     new Chart(chart), new Album(album));
             } while (amount > i);
 
-            if (_playList == null) _playList = new Playlist();
+            _playList = _playList ?? new Playlist();
             _playList.AddSong(_newForPlaylist);
         }
 
@@ -104,7 +104,7 @@ namespace AudioPlayer
         {
             NewTrack(out var name, out var artist, out var chart, out var album, out var genre);
 
-            _alltracks.Add(new Song(new Title(name), new Artist(artist), new Genre(genre),
+            _alltracks.Add(new Song((name), new Artist(artist), new Genre(genre),
                 new Chart(chart), new Album(album)));
         }
 
@@ -187,7 +187,7 @@ namespace AudioPlayer
         {
             _chart = new List<Song>();
             foreach (var alltrack in _alltracks)
-                _chart.Add(new Song(new Title(alltrack.title), new Artist(alltrack.artist), new Genre(alltrack.genre),
+                _chart.Add(new Song((alltrack.title), new Artist(alltrack.artist), new Genre(alltrack.genre),
                     new Chart(alltrack.chart), new Album(alltrack.album)));
 
 
