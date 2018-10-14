@@ -18,22 +18,39 @@ namespace AudioPlayer
         private Playlist _playList;
         private Song PlayingSong;
 
+        private enum Genres
+        {
+            RAP=1,
+            ELECTRO,
+            POP
+        }
         internal Core()
         {
             _alltracks = new List<Song>();
             PullData();
         }
 
+        
         internal void PullData()
         {
             try
             {
                 var path = @"C:\Users\Рома\source\repos\AudioPlayer\AudioPlayer\Database.txt";
-
+                
                 foreach (var line in File.ReadLines(path))
                 {
+                    int numberGenre;
                     var data = line.Split(new[] {'\t'}, StringSplitOptions.RemoveEmptyEntries);
-                    _alltracks.Add(new Song((data[1]), new Artist(data[2]), new Genre(data[3]),
+                    try
+                    {
+                        numberGenre = Convert.ToInt32(data[3]);
+                    }
+                    catch (Exception e)
+                    {
+                        numberGenre = Convert.ToInt32(data[4]);
+                    }
+                    Genres genre = (Genres) numberGenre;
+                    _alltracks.Add(new Song((data[1]), new Artist(data[2]),genre.ToString() ,
                         new Chart(data[0])));
                 }
             }
@@ -46,7 +63,7 @@ namespace AudioPlayer
                 Console.WriteLine("Error:\t" + fileNotFoundException.Message);
             }
 
-            Shuffle();
+           // Shuffle();
 
             //  SortByTitle();
             // AddNewSongInLibrary();
@@ -92,7 +109,7 @@ namespace AudioPlayer
             {
                 NewTrack(out var name, out var artist, out var chart, out var album, out var genre);
 
-                _newForPlaylist[i++] = new Song((name), new Artist(artist), new Genre(genre),
+                _newForPlaylist[i++] = new Song((name), new Artist(artist), genre,
                     new Chart(chart), new Album(album));
             } while (amount > i);
 
@@ -104,7 +121,7 @@ namespace AudioPlayer
         {
             NewTrack(out var name, out var artist, out var chart, out var album, out var genre);
 
-            _alltracks.Add(new Song((name), new Artist(artist), new Genre(genre),
+            _alltracks.Add(new Song((name), new Artist(artist), genre,
                 new Chart(chart), new Album(album)));
         }
 
@@ -151,6 +168,7 @@ namespace AudioPlayer
             {
                 if (_alltracks != null)
                 {
+                    Console.Clear();
                     Console.WriteLine("Now Playing:\t" + PlayingSong + "\n");
 
                     WriteLyrics(number, false);
@@ -187,7 +205,7 @@ namespace AudioPlayer
         {
             _chart = new List<Song>();
             foreach (var alltrack in _alltracks)
-                _chart.Add(new Song((alltrack.title), new Artist(alltrack.artist), new Genre(alltrack.genre),
+                _chart.Add(new Song((alltrack.title), new Artist(alltrack.artist), alltrack.genre,
                     new Chart(alltrack.chart), new Album(alltrack.album)));
 
 

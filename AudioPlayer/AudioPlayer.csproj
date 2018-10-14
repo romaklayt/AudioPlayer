@@ -47,7 +47,6 @@
     <Compile Include="Artist.cs" />
     <Compile Include="Chart.cs" />
     <Compile Include="Core.cs" />
-    <Compile Include="Genre.cs" />
     <Compile Include="Lyrics.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="Program.cs" />
